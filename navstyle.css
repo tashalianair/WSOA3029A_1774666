@@ -17,7 +17,7 @@ header {
 .logo {
     font-family: 'Nothing You Could Do';
     font-size: 3rem;
-    padding: 1rem;
+    padding-left: 2rem;
 }
 
 .navbar {
@@ -52,6 +52,7 @@ header {
     border: none;
     color: #6a2c70;;
     font-family: 'Yatra One';
+    font-size: 2rem;
     padding: 1.5rem;
     display: block;
 }
