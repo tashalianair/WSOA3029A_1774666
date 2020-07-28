@@ -25,6 +25,7 @@ header {
     align-items: center;
     background-color: #eeecda;
     font-family: 'Yatra One';
+    font-size: 2rem;
 }
 
 .navbar-links ul {
