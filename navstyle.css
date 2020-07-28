@@ -17,6 +17,7 @@ header {
 .logo {
     font-family: 'Nothing You Could Do';
     font-size: 3rem;
+    padding: 1rem;
 }
 
 .navbar {
