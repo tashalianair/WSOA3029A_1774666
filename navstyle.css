@@ -10,7 +10,8 @@ body {
 
 header {
     margin: 0;
-    padding: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .logo {
@@ -47,9 +48,9 @@ header {
 .navbar-links li button {
     background-color: transparent;
     border: none;
-    color: #bceed3;;
-    font-family: 'Lemonada', sans-serif;
-    padding: 1rem;
+    color: #6a2c70;;
+    font-family: 'Yatra One';
+    padding: 1.5rem;
     display: block;
 }
 
