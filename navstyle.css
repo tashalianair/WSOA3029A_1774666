@@ -44,7 +44,7 @@ header {
 
 .navbar-links li a {
     text-decoration: none;
-    color: #6a2c70;
+    color: #000839;
     padding: 1rem;
     display: block;
 }
@@ -52,7 +52,7 @@ header {
 .navbar-links li button {
     background-color: transparent;
     border: none;
-    color: #6a2c70;;
+    color: #000839;;
     font-family: 'Yatra One';
     font-size: 2rem;
     padding-top: 1rem;
