@@ -4,7 +4,8 @@
 
 body {
     background-color: #3b91b8;
-    margin: 0;
+    margin: 0; 
+    overflow: hidden;
 }
 
 
@@ -12,6 +13,7 @@ header {
     margin: 0;
     padding-top: 0;
     padding-bottom: 0;
+    background-image: url("hero-img.jpg");
 }
 
 .logo {
