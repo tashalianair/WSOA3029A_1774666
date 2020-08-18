@@ -16,7 +16,7 @@ header {
     margin: 0;
     padding-top: 0;
     padding-bottom: 0;
-    background: url("hero-img.png") no-repeat;
+    background: url("parallax.jpg") no-repeat;
     padding-top: 61%;
     background-size: cover;
 }
