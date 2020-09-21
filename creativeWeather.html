@@ -46,4 +46,95 @@
 
     </body>
     
+    <svg id="viz" width="600" height="600"></svg>
+
+    <svg id="visualgrad" width="800" height="800"></svg>
+    
+    <script>
+        
+        let exampleData = [
+            { x: 1, y: 29}, //+10, -2 march 18
+            { x: 2, y: 249}, //april 18
+            { x: 3, y: 916}, //may 18
+            { x: 4, y: 3476}, //june 18
+            { x: 5, y: 13283}, //july 18
+            { x: 6, y: 2256}, //august 18
+            { x: 7, y: 2126}, //september 18
+        ]
+    
+        let margin = 50;
+        let topMargin = 10;
+        let graphHeight = 500;
+        let vizArea = d3.select("#viz");
+        let xScale = d3.scaleLinear().domain([0, 7]).range([0,500]);
+        let yScale = d3.scaleLinear().domain([0, 14000]). range([graphHeight, 0]);
+    
+        vizArea
+            .append("g")
+            .attr("transform", `translate(${margin} , ${topMargin})`)
+            .call(d3.axisLeft(yScale));
+        vizArea
+            .append("g")
+            .attr("transform", `translate(${margin} , ${graphHeight + topMargin} )`)
+            .call(d3.axisBottom(xScale));
+    
+        vizArea
+        .selectAll('dots')
+        .data(exampleData)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) {
+            return xScale(d.x);
+        })
+        .attr("cy", function (d) {
+            return yScale(d.y);
+        })
+        .attr("r", 4);
+    
+        
+    
+    </script>
+    
+    
+    <canvas id="chart" width="600" height="800"></canvas>
+
+    <script>
+
+        var ctx = document.getElementById('chart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: xLabels,
+                datasets: [
+                    {
+                        label: 'Number of Cases',
+                        backgroundColor: 'rgb(0, 168, 204)',
+                        borderColor: 'rgb(0,168,204)',
+                        borderWidth: 1
+                    }
+                ]
+
+            }
+        })
+        
+        async function chartPls() {
+            await getInfo();
+            
+        }
+    
+        const api_url = 'http://corona-stats.mobi/api/json.2.0.php?key=lhDsJZ6IwOc4BmxyUWvr';
+        async function getInfo() {
+            const response = await fetch(api_url);
+            const data = await response.json();
+            const { Dates, Cases} = data;
+            xLabels.push(Dates);
+            yLabels.push(Cases);
+            console.log(Dates);
+            console.log(Cases);
+        }
+
+    </script>
+
+
+
 </html>

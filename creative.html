@@ -10,9 +10,17 @@
         <link href="https://fonts.googleapis.com/css?family=Nothing+You Could Do:400,700" rel="stylesheet">
         <script type="module" src="navjs.js" async></script>
         <script src="https://d3js.org/d3.v6.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
         <link rel="shortcut icon" type="image/jpg" href="13-full-moons-AdobeStock_74645303-600x319.jpg">
         <title>Moon Lake</title>
     </head>
+
+<style>
+   .heading {
+       margin-top: 5rem;
+       margin-bottom: 5rem;
+   }
+</style>   
 
     <body>
         <header>
@@ -41,7 +49,130 @@
         <div class="hero-img">
             
         </div>
+<main>
+        <section class="heading">
+            <div>
+                <h1>Graphs and Visualisations</h1>
+            </div>
+        </section>
+
+
+        <canvas id="chart" width="600" height="800"></canvas>
+
+        <script>
+    
+            //var ctx = document.getElementById('chart').getContext('2d');
+           // var chart = new Chart(ctx, {
+           //     type: 'line',
+           //     data: {
+           //         labels: xLabels,
+           //         datasets: [
+           //             {
+           //                 label: 'Number of Cases',
+           //                 backgroundColor: 'rgb(0, 168, 204)',
+           //                 borderColor: 'rgb(0,168,204)',
+           //                 borderWidth: 1
+           //             }
+           //         ]
+           // 
+           //     }
+           // })
+            
+            async function chartPls() {
+                await getInfo();
+                
+            }
+        
+            const api_url = 'http://corona-stats.mobi/api/json.2.0.php?key=lhDsJZ6IwOc4BmxyUWvr';
+            async function getInfo() {
+                const response = await fetch(api_url);
+                const data = await response.json();
+                const { Dates, Cases} = data;
+                xLabels.push(Dates);
+                yLabels.push(Cases);
+                console.log(Dates);
+                console.log(Cases);
+            }
+    
+        </script>
+
 
     </body>
+
+<svg id="viz" width="600" height="600"></svg>
+
+
+
+<script>
+
+
+var ctx = document.getElementById('chart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ['18 March', '18 April', '18 May', '18 June', '18 July', '18 August', '18 September'],
+        datasets: [{
+            label: 'Number of New Covid-19 Cases in South Africa: Taken from the 18th of each month',
+            fil: false,
+            backgroundColor: 'rgb(0,168,204)',
+            borderColor: 'rgb(0,80,130)',
+            data: [31, 251, 918, 3478, 13285, 2258, 2055]
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+
+    
+    let exampleData = [
+        { x: 1, y: 29}, //+10, -2 march 18
+        { x: 2, y: 249}, //april 18
+        { x: 3, y: 916}, //may 18
+        { x: 4, y: 3476}, //june 18
+        { x: 5, y: 13283}, //july 18
+        { x: 6, y: 2256}, //august 18
+        { x: 7, y: 2126}, //september 18
+    ]
+
+    let margin = 50;
+    let topMargin = 10;
+    let graphHeight = 500;
+    let vizArea = d3.select("#viz");
+    let xScale = d3.scaleLinear().domain([0, 7]).range([0,500]);
+    let yScale = d3.scaleLinear().domain([0, 14000]). range([graphHeight, 0]);
+
+    vizArea
+        .append("g")
+        .attr("transform", `translate(${margin} , ${topMargin})`)
+        .call(d3.axisLeft(yScale));
+    vizArea
+        .append("g")
+        .attr("transform", `translate(${margin} , ${graphHeight + topMargin} )`)
+        .call(d3.axisBottom(xScale));
+
+    vizArea
+    .selectAll('dots')
+    .data(exampleData)
+    .enter()
+    .append("circle")
+    .attr("cx", function (d) {
+        return xScale(d.x);
+    })
+    .attr("cy", function (d) {
+        return yScale(d.y);
+    })
+    .attr("r", 4);
+
+    
+
+</script>
+</main>
+
+
+
     
 </html>
