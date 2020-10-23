@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, inital-scale+1.0, minimum-scare=1.0">
+        <meta http-equiv="X-AU-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="testcss.css">
+        <link href="https://fonts.googleapis.com/css?family=Yatra+One:400,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nothing+You Could Do:400,700" rel="stylesheet">
+        <script type="module" src="navjs.js" async></script>
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+        <link rel="shortcut icon" type="image/jpg" href="13-full-moons-AdobeStock_74645303-600x319.jpg">
+        <title>Moon Lake</title>
+    </head>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url("stars.png");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+/*
+        .parallax {
+            height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-perspective: 1px;
+            perspective: 1px;
+        }
+
+        .parallax_layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .parallax_layer--base {
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+
+        .parallax_layer--back {
+            -webkit-transform: translateZ(-2px) scale(3);
+            transform: translateZ(-6px) scale(3);
+        }
+
+        .parallax_layer--back2 {
+            -webkit-transform: translateZ(-6px) scale(5);
+            transform: translateZ(-6px) scale(5);
+        }
+
+        .parallax_layer--back3 {
+            -webkit-transform: translateZ(-12px) scale(6);
+            transform: translateZ(-12px) scale(6);
+        }
+
+        .parallax_layer {
+            padding: 100vh 0;
+        }
+
+        .starfield > * {
+            background-size: 200px 200px;
+            background-image: radial-gradient(
+                2px 2px at 40px 60px,
+                #ccc,
+                rgba(0, 0, 0, 0)
+            ),
+            radial-gradient(2px 2px at 20px 50px, rgb(255,203,116), rgba(0, 0, 0, 0)),
+            radial-gradient(2px 2px at 30px 100px, rgb(251,212,109), rgba(0, 0, 0, 0)),
+            radial-gradient(2px 2px at 40px 60px,rgb(240,138,93), rgba(0, 0, 0, 0)),
+            radial-gradient(2px 2px at 110px 90px, rgb(255,164,27), rgba(0, 0, 0, 0)),
+            radial-gradient(2px 2px at 190px 150px, rgb(255,223,0), rgba(0, 0, 0, 0));
+            background-repeat: repeat;
+        }
+
+        .starfield > * {
+            position: absolute;
+            top: -250%;
+            left: 0;
+            height: 500%;
+            width: 100%;
+        }
+
+        .starfield span:nth-child(2) {
+            transform: rotate(45deg);
+        }
+
+        .starfield span:nth-child(3) {
+            transform: rotate(69deg);
+        }
+
+        .starfield span:nth-child(4) {
+            transform: rotate(123deg);
+        }*/
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000839;
+            color: #fbd46d;
+        }
+
+        .title {
+            font-family: 'Yatra One';
+            font-size: 2.5rem;
+            margin: .5rem;
+        }
+
+        .navbar-links ul {
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar-links li {
+            list-style: none;
+        }
+
+        .navbar-links li a {
+            text-decoration: none;
+            font-family: 'Yatra One';
+            font-size: 1.5rem;
+            color: #fbd46d;
+            padding: 1rem;
+            display: block;
+        }
+
+        .navbar-links li:hover {
+            background-color: #005082;
+        }
+
+        .toggle-button {
+            position: absolute;
+            top: .75rem;
+            right: 1rem;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+        }
+
+        .toggle-button .bar {
+            height: 3px;
+            width: 100%;
+            background-color: #fbd46d;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 450px) {
+            .toggle-button {
+                display: flex;
+            }
+
+            .navbar-links {
+                display: none;
+            }
+
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar-links ul {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .navbar-links li {
+                text-align: center;
+            }
+
+            .navbar-links li a {
+                padding: .5rem 1rem;
+            }
+
+            .navbar-links.active {
+                display: flex;
+            }
+        }
+
+
+        
+
+    </style>
+
+    <script>
+        function load_moon_phases(obj,callback){
+    var gets=[]
+    for (var i in obj){
+        gets.push(i + "=" +encodeURIComponent(obj[i]))
+    }
+    gets.push("LDZ=" + new Date(obj.year,obj.month-1,1) / 1000)
+    var xmlhttp = new XMLHttpRequest()
+    var url = "https://www.icalendar37.net/lunar/api/?" + gets.join("&")
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            callback(JSON.parse(xmlhttp.responseText))
+        }
+    }
+    xmlhttp.open("GET", url, true)
+    xmlhttp.send()
+}
+function moonCalender(moon){     
+    var lunar_day , i , inc = 0
+    var containsCalendar =  document.getElementById("moonCalendar")
+    const first_day_week_sunday = false 
+    if (first_day_week_sunday) {
+        inc = 1
+        moon.nameDay.unshift(moon.nameDay.pop())        
+    }
+    var empty_initial_boxes = Number(moon.phase[1].dayWeek) + inc     
+    var number_days_month = Number(moon.daysMonth)
+    var total_boxes = Math.ceil((empty_initial_boxes + number_days_month) /7) * 7
+    var html ='<div>' +
+        '<button value="-1" class="buttonCalendar">\u276E</button>'  +
+        '<div class="titleCalendar">' + moon.monthName + " "+ moon.year + '</div>' +
+        '<button value="1" class="buttonCalendar">\u276F</button>' + 
+        '</div>'
+    for (i=0; i<7; i++){
+        html += '<div class="name_day">' + moon.nameDay[i] + '</div>'
+    } 
+    containsCalendar.innerHTML = html    
+    for (i=0; i < total_boxes; i++){
+        var day = i - empty_initial_boxes
+        var box = document.createElement("DIV")
+        box.className="day_box" 
+         if (day>=0 && day < number_days_month){
+            lunar_day = day + 1
+            if (moon.year ==  (new Date).getFullYear() && moon.month == (new Date).getMonth()+1 && lunar_day == (new Date).getDate()) box.id="isToDay"
+            box.innerHTML = '<div>' +
+             '<span>' + lunar_day + '</span>' +
+             '<div>' +moon.phase[lunar_day].svg +'</div>' +
+             '</div>'
+            if (moon.phase[lunar_day].isPhaseLimit){           
+                var url="data:image/svg+xml;utf8, " + moon.phase[lunar_day].svgMini 
+                box.firstChild.style.backgroundImage ='url("' + url +'")'
+                box.title= moon.phase[lunar_day].phaseName  
+            }
+         }        
+        containsCalendar.appendChild(box)
+    }
+   
+    document.querySelectorAll(".buttonCalendar").forEach(function(button){
+        button.onclick = function(){
+            var date_to_show = new Date(moon.year,moon.month + Number(this.getAttribute("value")-1),1)
+            var configMoon = moon.receivedVariables
+            configMoon.month = date_to_show.getMonth()+1
+            configMoon.year = date_to_show.getFullYear()
+            load_moon_phases(configMoon,moonCalender)
+            this.style.visibility= "hidden"
+        }
+    })
+}   
+var configMoon = {
+    lang  		:'en', 
+    month 		:new Date().getMonth() + 1,
+    year  		:new Date().getFullYear(),
+    size		:"100%", 
+    lightColor	:"#fbd46d", 
+    shadeColor	:"black", 
+    texturize	:false, 
+}
+load_moon_phases(configMoon,moonCalender)
+    </script>
+
+    <body>
+
+        <header>
+            <nav class="navbar">
+                <div class="title">Moon Lake</div>
+                <a href="#" class="toggle-button">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </a>
+                <div class="navbar-links">
+                    <ul>
+                        <li><a href="landing.html">Home</a></li>
+                        <li><a href="test2.html">Blogs</a></li>
+                        <li><a href="astrology.html">Astrology</a></li>
+                        <li><a href="test.html">Creative</a></li>
+                        <li><a href="creative.html">Graphs</a></li>
+                    </ul>
+                </div>
+            </nav>
+            </header>
+<div id="moonCalendar"></div>
+       
+<!--
+        <div class="parallax">
+            
+            <div class="parallax_layer prallax_layer--back">
+                <div class="starfield">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="parallax_layer parallax_layer--back2">
+                <div class="starfield">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="parallax_layer parallax_layer--back3">
+                <div class="starfield">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="parallax_layer parallax_layer--base">
+                
+                <div class="starfield">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+-->
+    </body>
+</html>
