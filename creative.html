@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, inital-scale+1.0, minimum-scare=1.0">
         <meta http-equiv="X-AU-Compatible" content="ie=edge">
         <link rel="stylesheet" href="bloglanding.css">
+        <link rel="stylesheet" href="landing.css">
         <link href="https://fonts.googleapis.com/css?family=Yatra+One:400,700" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Nothing+You Could Do:400,700" rel="stylesheet">
@@ -24,6 +25,63 @@
         background-attachment: fixed;
         }
 
+            /*blog cards*/
+.cards-list {
+    z-index: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(70px, auto);
+    grid-column-gap: 1rem;
+    grid-row-gap: 5rem;
+}
+
+.card {
+    margin: 30px auto;
+    width: 300px;
+    height: 300px;
+    border-radius: 40px;
+    box-shadow: 5px 5px 30px 7px rbga(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
+    cursor: pointer;
+    transition: 0.4s;
+   
+}
+
+.card .card_image img {
+    width: 300px;
+    height: 300x;
+    border-radius: 40px;
+    object-fit: cover;
+}
+
+.card .card_title {
+    text-align: center;
+    border-radius: 0px 0px 40px 40px;
+    font-family: 'Yatra One';
+    font-weight: bold;
+    font-size: 30px;
+    margin-top: -80px;
+    height: 40px;
+}
+
+.card:hover {
+    transform: scale(0.9, 0.9);
+    box-shadow: 5px 5px 30px 15px rgba(0,0,0,0.25),
+        -5px -5px 30px 15px rgba(0,0,0,0.22);
+}
+
+.title-white {
+    color: white;
+}
+
+.title-black {
+    color: black;
+}
+
+
     </style>   
 
     <body>
@@ -38,7 +96,7 @@
                 <div class="navbar-links">
                     <ul>
                         <li><a href="landing.html">Home</a></li>
-                        <li><a href="test2.html">Blogs</a></li>
+                        <li><a href="bloglanding.html">Blogs</a></li>
                         <li><a href="test.html">Creative</a></li>
                         <li><a href="creative.html">Graphs</a></li>
                         <li><a href="astrology.html">About</a></li>
@@ -46,7 +104,6 @@
                 </div>
             </nav>
             </header>
-
      
     <main>
         <section class="heading">
@@ -55,118 +112,60 @@
             </div>
         </section>
 
+           <div class="wrapper">
+            <div class="cols">
+                <div class="col" ontouchstart="this.classList.toggle('hover');">
+                    <div class="container">
+                        <div class="front" style="background-image: url(https://media.giphy.com/media/TXa0vDyWB82d2/giphy.gif);">
+                            <div class="inner">
+                                <p>bar chart</p>
+                                
+                            </div>
+                        </div>
+                        <div class="back">
+                            <div class="inner">
+                                <p><a href="connectedscatter.html">total cases in Gauteng 21/10 - 21/11</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" ontouchstart="this.classList.toggle('hover');">
+                    <div class="container">
+                        <div class="front" style="background-image: url(https://media.giphy.com/media/G9V9cAFlYBHl6/giphy.gif);">
+                            <div class="inner">
+                                <p>lollipop graph</p>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <div class="inner">
+                                <p><a href="graphtest_line.html">number of deaths in each province 21/11</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" ontouchstart="this.classList.toggle('hover');">
+                    <div class="container">
+                        <div class="front" style="background-image: url(https://media.giphy.com/media/4n4lwWkI20eli/giphy.gif);">
+                            <div class="inner">
+                                <p>pie chart</p>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <div class="inner">
+                                <p><a href="graphtest copy.html">interactive pie chart</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <canvas id="chart" width="600" height="800"></canvas>
 
-        <script>
-    
-            //var ctx = document.getElementById('chart').getContext('2d');
-           // var chart = new Chart(ctx, {
-           //     type: 'line',
-           //     data: {
-           //         labels: xLabels,
-           //         datasets: [
-           //             {
-           //                 label: 'Number of Cases',
-           //                 backgroundColor: 'rgb(0, 168, 204)',
-           //                 borderColor: 'rgb(0,168,204)',
-           //                 borderWidth: 1
-           //             }
-           //         ]
-           // 
-           //     }
-           // })
-            
-            async function chartPls() {
-                await getInfo();
-                
-            }
-        
-            const api_url = 'http://corona-stats.mobi/api/json.2.0.php?key=lhDsJZ6IwOc4BmxyUWvr';
-            async function getInfo() {
-                const response = await fetch(api_url);
-                const data = await response.json();
-                const { Dates, Cases} = data;
-                xLabels.push(Dates);
-                yLabels.push(Cases);
-                console.log(Dates);
-                console.log(Cases);
-            }
-    
-        </script>
 
 
         </body>
 
-        <svg id="viz" width="600" height="600"></svg>
 
-
-
-        <script>
-
-            var ctx = document.getElementById('chart').getContext('2d');
-            var chart = new Chart(ctx, {
-            // The type of chart we want to create
-             type: 'line',
-
-             // The data for our dataset
-             data: {
-                labels: ['18 March', '18 April', '18 May', '18 June', '18 July', '18 August', '18 September'],
-                datasets: [{
-              label: 'Number of New Covid-19 Cases in South Africa: Taken from the 18th of each month',
-                fil: false,
-                backgroundColor: 'rgb(0,168,204)',
-                borderColor: 'rgb(0,80,130)',
-                data: [31, 251, 918, 3478, 13285, 2258, 2055]
-                }]
-            },
-
-            // Configuration options go here
-            options: {}
-            });
-
-    
-            let exampleData = [
-                { x: 1, y: 29}, //+10, -2 march 18
-                { x: 2, y: 249}, //april 18
-                { x: 3, y: 916}, //may 18
-                { x: 4, y: 3476}, //june 18
-                { x: 5, y: 13283}, //july 18
-                { x: 6, y: 2256}, //august 18
-                { x: 7, y: 2126}, //september 18
-            ]
-
-            let margin = 50;
-            let topMargin = 10;
-            let graphHeight = 500;
-            let vizArea = d3.select("#viz");
-            let xScale = d3.scaleLinear().domain([0, 7]).range([0,500]);
-            let yScale = d3.scaleLinear().domain([0, 14000]). range([graphHeight, 0]);
-
-            vizArea
-                .append("g")
-                .attr("transform", `translate(${margin} , ${topMargin})`)
-                .call(d3.axisLeft(yScale));
-            vizArea
-                .append("g")
-                .attr("transform", `translate(${margin} , ${graphHeight + topMargin} )`)
-                .call(d3.axisBottom(xScale));
-
-            vizArea
-            .selectAll('dots')
-            .data(exampleData)
-            .enter()
-            .append("circle")
-            .attr("cx", function (d) {
-                return xScale(d.x);
-            })
-            .attr("cy", function (d) {
-                return yScale(d.y);
-            })
-            .attr("r", 4);
-
-    
-
-        </script>
 </main>
 </html>
